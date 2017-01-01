@@ -47,6 +47,9 @@ func TestEtcdSSL(t *testing.T) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	insertEtcd(c)
+}
+func insertEtcd( c client)  {
 	kapi := client.NewKeysAPI(c)
 	// set "/foo" key with "bar" value
 	log.Print("Setting '/foo' key with 'bar' value")

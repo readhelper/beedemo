@@ -1,13 +1,14 @@
 package test
 
 import (
-	_ "hellogo/routers"
 	"path/filepath"
 	"runtime"
 	"testing"
 	"net/http"
 	"net/http/httptest"
+	_ "hellogo/routers"
 	"github.com/astaxie/beego"
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 func init() {
@@ -25,7 +26,7 @@ func TestBeego(t *testing.T) {
 
 	beego.Trace("testing", "TestBeego", "Code[%d]\n%s", w.Code, w.Body.String())
 
-	/*Convey("Subject: Test Station Endpoint\n", t, func() {
+	Convey("Subject: Test Station Endpoint\n", t, func() {
 		Convey("Status Code Should Be 200", func() {
 			So(w.Code, ShouldEqual, 200)
 		})
@@ -33,5 +34,4 @@ func TestBeego(t *testing.T) {
 			So(w.Body.Len(), ShouldBeGreaterThan, 0)
 		})
 	})
-	*/
 }

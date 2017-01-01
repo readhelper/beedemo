@@ -11,7 +11,7 @@ import (
 // TestBeego is a sample to run an endpoint test
 func TestEtcd(t *testing.T) {
 	cfg := client.Config{
-        Endpoints:               []string{"https://127.0.0.1:2379"},
+        Endpoints:               []string{"http://127.0.0.1:2379"},
         Transport:               client.DefaultTransport,
         // set timeout per request to fail fast when the target endpoint is unavailable
         HeaderTimeoutPerRequest: time.Second,

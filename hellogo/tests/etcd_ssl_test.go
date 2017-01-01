@@ -1,5 +1,9 @@
 package test
-
+/*
+  ETCD:
+  C:\etcd-v2.0.5\etcd.exe -cert-file=./cer/server.crt -key-file=./cer/server.key   -advertise-client-urls=https://127.0.0.1:2379 -listen-client-urls=https://127.0.0.1:2379
+  C:\etcd-v2.0.5\etcd.exe -ca-file=./cer/root.crt  -cert-file=./cer/server.crt -key-file=./cer/server.key   -advertise-client-urls=https://127.0.0.1:2379 -listen-client-urls=https://127.0.0.1:2379
+ */
 import (
 	"testing"
 	"log"
@@ -26,7 +30,7 @@ func TestEtcdSSL(t *testing.T) {
 	pool.AppendCertsFromPEM(caCrt)
 	//pool.AddCert(caCrt)
 
-	cliCrt, err := tls.LoadX509KeyPair("C:/openssl/bin/client.crt", "C:/openssl/bin/client.key")
+	cliCrt, err := tls.LoadX509KeyPair("C:/openssl/bin/hao.crt", "C:/openssl/bin/hao.key")
 	if err != nil {
 		fmt.Println("Loadx509keypair err:", err)
 		return
@@ -49,7 +53,7 @@ func TestEtcdSSL(t *testing.T) {
 	}
 	insertEtcd(c)
 }
-func insertEtcd( c client)  {
+func insertEtcd( c client.Client)  {
 	kapi := client.NewKeysAPI(c)
 	// set "/foo" key with "bar" value
 	log.Print("Setting '/foo' key with 'bar' value")

@@ -11,7 +11,7 @@ import (
 // TestBeego is a sample to run an endpoint test
 func TestEtcd(t *testing.T) {
 	cfg := client.Config{
-        Endpoints:               []string{"http://127.0.0.1:2379"},
+        Endpoints:               []string{"http://127.0.0.1:4001"},
         Transport:               client.DefaultTransport,
         // set timeout per request to fail fast when the target endpoint is unavailable
         HeaderTimeoutPerRequest: time.Second,
@@ -22,8 +22,8 @@ func TestEtcd(t *testing.T) {
     }
     kapi := client.NewKeysAPI(c)
     // set "/foo" key with "bar" value
-    log.Print("Setting '/foo' key with 'bar' value")
-    resp, err := kapi.Set(context.Background(), "/foo", "bar", nil)
+    log.Print("Setting '/haolipeng' key with 'bar' value")
+    resp, err := kapi.Set(context.Background(), "/haolipeng", "bar", nil)
     if err != nil {
         log.Fatal(err)
     } else {
@@ -31,8 +31,8 @@ func TestEtcd(t *testing.T) {
         log.Printf("Set is done. Metadata is %q\n", resp)
     }
     // get "/foo" key's value
-    log.Print("Getting '/foo' key value")
-    resp, err = kapi.Get(context.Background(), "/foo", nil)
+    log.Print("Getting '/haolipeng' key value")
+    resp, err = kapi.Get(context.Background(), "/haolipeng", nil)
     if err != nil {
         log.Fatal(err)
     } else {

@@ -35,6 +35,13 @@ func Test_Crt(t *testing.T) {
 		t.Log("Create crt error,Error info:", err)
 		return
 	}
+
+	//添加扩展字段用来做自定义使用
+	crt, pri, err := Parse(baseinfo.CrtName, baseinfo.KeyName)
+	if err != nil {
+		t.Log("Parse crt error,Error info:", err)
+		return
+	}
 	crtinfo := baseinfo
 	crtinfo.IsCA = false
 	crtinfo.CrtName = cfg+"test_server.crt"
@@ -45,13 +52,8 @@ func Test_Crt(t *testing.T) {
 			"MAC_ADDR",
 		},
 	}
-	//添加扩展字段用来做自定义使用
-	crt, pri, err := Parse(baseinfo.CrtName, baseinfo.KeyName)
-	if err != nil {
-		t.Log("Parse crt error,Error info:", err)
-		return
-	}
 	err = CreateCRT(crt, pri, crtinfo)
+
 	if err != nil {
 		t.Log("Create crt error,Error info:", err)
 	}

@@ -44,7 +44,7 @@ func TestAll(t *testing.T) {
 		if !rx.MatchString(fi.Name()) {
 			continue
 		}
-		//t.Logf("Testing %s", fi.Name())
+		t.Logf("Testing %s", fi.Name())
 		src, err := ioutil.ReadFile(path.Join(baseDir, fi.Name()))
 		if err != nil {
 			t.Fatalf("Failed reading %s: %v", fi.Name(), err)
@@ -85,7 +85,7 @@ func TestAll(t *testing.T) {
 					copy(ps[i:], ps[i+1:])
 					ps = ps[:len(ps)-1]
 
-					//t.Logf("/%v/ matched at %s:%d", in.Match, fi.Name(), in.Line)
+					t.Logf("/%v/ matched at %s:%d", in.Match, fi.Name(), in.Line)
 					ok = true
 					break
 				}

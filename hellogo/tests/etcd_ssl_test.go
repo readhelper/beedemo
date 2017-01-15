@@ -18,7 +18,7 @@ import (
 )
 
 // TestBeego is a sample to run an endpoint test
-func TestEtcdSSL(t *testing.T) {
+func testEtcdSSL(t *testing.T) {
 	//x509.Certificate.
 	pool := x509.NewCertPool()
 	caCertPath := "C:/openssl/bin/root.crt"

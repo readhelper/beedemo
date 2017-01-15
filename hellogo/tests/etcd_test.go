@@ -9,7 +9,7 @@ import (
 )
 
 // TestBeego is a sample to run an endpoint test
-func TestEtcd(t *testing.T) {
+func testEtcd(t *testing.T) {
 	cfg := client.Config{
         Endpoints:               []string{"http://127.0.0.1:4001"},
         Transport:               client.DefaultTransport,

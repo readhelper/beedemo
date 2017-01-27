@@ -1,1 +1,23 @@
 # beedemo
+C:\go\work\src\hellogo>gometalinter --deadline 15m ./...
+rsas\rsa.go:87:5:warning: ineffectual assignment to buf (ineffassign)
+rsas\rsa.go:96:5:warning: ineffectual assignment to buf (ineffassign)
+main.go:9:1:warning: UnName is unused (deadcode)
+main.go:13:1:warning: unDelete is unused (deadcode)
+routers\router.go:17:1:warning: unDelete is unused (deadcode)
+main.go:9:6:warning: exported type UnName should have comment or be unexported (golint)
+controllers\default.go:7:6:warning: exported type MainController should have comment or be unexported (golint)
+controllers\default.go:11:1:warning: exported method MainController.Get should have comment or be unexported (golint)
+controllers\dot.go:4:2:warning: should not use dot imports (golint)
+controllers\dot.go:7:6:warning: exported type DotController should have comment or be unexported (golint)
+controllers\dot.go:11:1:warning: exported method DotController.Get should have comment or be unexported (golint)
+routers\router.go:13:6:warning: exported type UnRoute should have comment or be unexported (golint)
+rsas\rsa.go:20:6:warning: exported type CertInformation should have comment or be unexported (golint)
+rsas\rsa.go:33:1:warning: comment on exported function CreateCRT should be of the form "CreateCRT ..." (golint)
+rsas\rsa.go:68:8:warning: should omit type *pem.Block from declaration of var b; it will be inferred from the right-hand
+ side (golint)
+rsas\rsa.go:72:1:warning: exported function Parse should have comment or be unexported (golint)
+rsas\rsa.go:81:1:warning: exported function ParseCrt should have comment or be unexported (golint)
+rsas\rsa.go:91:1:warning: exported function ParseKey should have comment or be unexported (golint)
+tests\rsa_test.go:50::error: crypto/x509/pkix.AttributeTypeAndValue composite literal uses unkeyed fields (vet)
+rsas\rsa.go:64:18:warning: error return value not checked (defer File.Close()) (errcheck)

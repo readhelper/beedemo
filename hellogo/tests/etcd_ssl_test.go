@@ -1,4 +1,4 @@
-package test
+package tests
 /*
   ETCD:
   C:\etcd-v2.0.5\etcd.exe -cert-file=./cer/server.crt -key-file=./cer/server.key   -advertise-client-urls=https://127.0.0.1:2379 -listen-client-urls=https://127.0.0.1:2379

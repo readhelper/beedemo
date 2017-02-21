@@ -3,6 +3,7 @@ package dao
 import (
 	"github.com/coreos/etcd/client"
 	"fmt"
+	"time"
 )
 
 var kapi client.KeysAPI
@@ -11,6 +12,7 @@ func getconn() {
 	cfg := client.Config{
 		Endpoints: []string{"http://127.0.0.1:4001"},
 		Transport: client.DefaultTransport,
+		HeaderTimeoutPerRequest: time.Second,
 	}
 	c, err := client.New(cfg)
 	if (err != nil) {

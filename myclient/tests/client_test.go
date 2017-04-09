@@ -22,7 +22,7 @@ func TestRequetWithDial(t *testing.T) {
 		httpDo("POST", "http://192.168.0.4:12345", transport)
 		time.Sleep(time.Millisecond * 100)
 	}
-	time.Sleep(time.Second * 1000)
+	time.Sleep(time.Second * 60)
 }
 
 func TestRequetWithEmpty(t *testing.T) {
@@ -32,7 +32,7 @@ func TestRequetWithEmpty(t *testing.T) {
 		httpDo("POST", "http://localhost:12345", transport)
 		time.Sleep(time.Millisecond * 10)
 	}
-	time.Sleep(time.Second * 1000)
+	time.Sleep(time.Second * 60)
 }
 func TestRequetWithDefault(t *testing.T) {
 	var N = 100000
@@ -41,7 +41,7 @@ func TestRequetWithDefault(t *testing.T) {
 		httpDo("POST", "http://localhost:12345", transport)
 		time.Sleep(time.Millisecond * 10)
 	}
-	time.Sleep(time.Second * 1000)
+	time.Sleep(time.Second * 60)
 }
 func TestRequetToBeego(t *testing.T) {
 	var N = 100000
@@ -50,7 +50,7 @@ func TestRequetToBeego(t *testing.T) {
 		httpDo("GET", "https://beego.me/", transport)
 		time.Sleep(time.Millisecond * 10)
 	}
-	time.Sleep(time.Second * 1000)
+	time.Sleep(time.Second * 60)
 }
 func TestRequetToBaidu(t *testing.T) {
 	var N = 100000
@@ -59,7 +59,7 @@ func TestRequetToBaidu(t *testing.T) {
 		httpDo("GET", "http://www.baidu.com/", transport)
 		time.Sleep(time.Millisecond * 10)
 	}
-	time.Sleep(time.Second * 1000)
+	time.Sleep(time.Second * 60)
 }
 
 func dialTimeout(network, addr string) (net.Conn, error) {

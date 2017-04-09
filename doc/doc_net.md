@@ -1,6 +1,7 @@
 # 当GOLang遇到大量ESTABLISHED的分析及解决方案
 ## 现象描述
 当Go程序(两个GO程序互为服务端、客户端)运行一段时间后，使用netstat -a查看，就出现大量ESTABLISHED的连接，且久久保持不断开。
+目前这个问题涉及PSM,PM，郭文丹负责的项目等go应用。对大量请求第三方服务的go应用影响较大，PSM出现过一次端口被用光的情况。
 ![cmd-markdown-logo](img/net1.jpg)
 客户端连接代码如下：
 ```

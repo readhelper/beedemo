@@ -87,6 +87,63 @@ var DefaultTransport RoundTripper = &Transport{
 ESTABLISHED问题解决。
 
 ## 解决方案
-          
+```
+//方案一：设置IdleConnTimeout，超时断开
+func TestRequetOk1(t *testing.T) {
+	var N = 10
+	for i := 0; i < N; i++ {
+		transport := &http.Transport{
+			IdleConnTimeout:       2 * time.Second,
+		}
+		httpDo("GET", "http://192.168.0.4:12345", transport)
+		time.Sleep(time.Millisecond * 100)
+	}
+	time.Sleep(time.Second * 60)
+}
+//方案二：设置DisableKeepAlives，不重用
+func TestRequetOk2(t *testing.T) {
+	var N = 10
+	for i := 0; i < N; i++ {
+		transport := &http.Transport{
+			DisableKeepAlives:true,
+		}
+		httpDo("GET", "http://192.168.0.4:12345", transport)
+		time.Sleep(time.Millisecond * 100)
+	}
+	time.Sleep(time.Second * 60)
+}
+//方案三：共享全局Transport
+func TestRequetOk3(t *testing.T) {
+	var N = 10
+	transport := &http.Transport{}
+	for i := 0; i < N; i++ {
+		httpDo("GET", "http://192.168.0.4:12345", transport)
+		time.Sleep(time.Second * 3)
+	}
+	time.Sleep(time.Second * 60)
+}
+//方案四：设置req.Header.Add("connection", "close")
+func TestRequetOk4(t *testing.T) {
+	var N = 100
+	for i := 0; i < N; i++ {
+		transport := &http.Transport{}
+		//req.Header.Add("connection", "close")
+		httpDoWithClose("GET", "http://www.baidu.com", transport)
+		time.Sleep(time.Second * 3)
+	}
+	time.Sleep(time.Second * 60)
+}          
+```
+## 扩展阅读       
+* IdleConnTimeout 是golang1.7引入的，1.6标记为todo，golang团队应该意识到这个设计缺陷。
+```
+// TODO: tunable on global max cached connections
+// TODO: tunable on timeout on cached connections
+// TODO: tunable on max per-host TCP dials in flight (Issue 13957)
+```
+* 目前我们go应用基本上用的是beego框架，服务端长时间不关闭连接，也可能造成自身崩溃
+```
+GO 可以通过 net.TCPConn 的 SetKeepAlive 来启用 TCP keepalive。在 OS X 和 Linux 系统上，当一个连接空间了2个小时时，会以75秒的间隔发送8个TCP keepalive探测包。换句话说， 在两小时10分钟后(7200+8*75)Read将会返回一个 io.EOF 错误.
 
-## 扩展阅读          
+对于你的应用，这个超时间隔可能太长了。在这种情况下你可以调用SetKeepAlivePeriod方法。但这个方法在不同的操作系统上会有不同的表现。在OSX上它会更改发送探测包前连接的空间时间。在Linux上它会更改连接的空间时间与探测包的发送间隔。所以以30秒的参数调用 SetKeepAlivePeriod在OSX系统上会导致共10分30秒(30+8*75)的超时时间，但在linux上却是4分30秒(30+8*30).
+```

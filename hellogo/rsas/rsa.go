@@ -56,7 +56,7 @@ func CreateCRT(RootCa *x509.Certificate, RootKey *rsa.PrivateKey, info CertInfor
 	}
 
 	buf = x509.MarshalPKCS1PrivateKey(Key)
-	return write(info.KeyName, "PRIVATE KEY", buf)
+	return write(info.KeyName, "RSA PRIVATE KEY", buf)
 }
 //编码写入文件
 func write(filename, Type string, p []byte) error {

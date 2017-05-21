@@ -15,9 +15,9 @@ import (
 func init() {
 	_, file, _, _ := runtime.Caller(1)
 	apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, ".." + string(filepath.Separator))))
-	apppath = filepath.Join(apppath, "conf", "app_win.conf")
+	//apppath = filepath.Join(apppath, "conf", "app_win.conf")
 	//beego.BeeApp.LoadAppConfig("ini",apppath)
-	//beego.TestBeegoInit(apppath)
+	beego.TestBeegoInit(apppath)
 }
 
 // TestBeego is a sample to run an endpoint test

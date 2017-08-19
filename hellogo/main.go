@@ -6,12 +6,20 @@ import (
 	"net/http"
 	"os"
 	"io/ioutil"
+	"runtime"
+	"strings"
+	"strconv"
+	"bytes"
+	"github.com/astaxie/beego"
+	_ "hellogo/routers"
 )
 
 func main() {
-	http.HandleFunc("/", index)
-	http.HandleFunc("/upload", upload)
-	http.ListenAndServe(":1789", nil)
+	beego.Run()
+
+	//http.HandleFunc("/", index)
+	//http.HandleFunc("/upload", upload)
+	//http.ListenAndServe(":1789", nil)
 }
 
 func upload(w http.ResponseWriter, r *http.Request) {
@@ -34,14 +42,42 @@ func upload(w http.ResponseWriter, r *http.Request) {
 	}
 	defer f.Close()
 	io.Copy(f, file)
-	fmt.Fprintln(w, "upload ok!",handler.Filename)
+	fmt.Fprintln(w, "upload ok!", handler.Filename)
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte(tpl))
+	println(getGID())
+	var id = Goid()
+	w.Write([]byte(strconv.Itoa(id) + ":" + tpl))
 }
 
-const tpl = `<html>  
+func getGID() uint64 {
+    b := make([]byte, 64)
+    b = b[:runtime.Stack(b, false)]
+    b = bytes.TrimPrefix(b, []byte("goroutine "))
+    b = b[:bytes.IndexByte(b, ' ')]
+    n, _ := strconv.ParseUint(string(b), 10, 64)
+    return n
+}
+
+func Goid() int {
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println("panic recover:panic info:%v", err)
+		}
+	}()
+
+	var buf [64]byte
+	n := runtime.Stack(buf[:], false)
+	idField := strings.Fields(strings.TrimPrefix(string(buf[:n]), "goroutine "))[0]
+	id, err := strconv.Atoi(idField)
+	if err != nil {
+		panic(fmt.Sprintf("cannot get goroutine id: %v", err))
+	}
+	return id
+}
+
+const tpl = `<html>
 <head>  
 <title>上传文件</title>  
 </head>  

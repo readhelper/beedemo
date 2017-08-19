@@ -8,6 +8,9 @@ import (
 	"strings"
 	"net"
 	"time"
+"runtime"
+	"bytes"
+	"strconv"
 )
 
 type MainController struct {
@@ -15,7 +18,37 @@ type MainController struct {
 }
 
 func (c *MainController) Get() {
+
+	println(getGID())
+	println(Goid())
 	c.Ctx.WriteString("hello,beego get")
+}
+
+
+func getGID() uint64 {
+    b := make([]byte, 64)
+    b = b[:runtime.Stack(b, false)]
+    b = bytes.TrimPrefix(b, []byte("goroutine "))
+    b = b[:bytes.IndexByte(b, ' ')]
+    n, _ := strconv.ParseUint(string(b), 10, 64)
+    return n
+}
+
+func Goid() int {
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println("panic recover:panic info:%v", err)
+		}
+	}()
+
+	var buf [64]byte
+	n := runtime.Stack(buf[:], false)
+	idField := strings.Fields(strings.TrimPrefix(string(buf[:n]), "goroutine "))[0]
+	id, err := strconv.Atoi(idField)
+	if err != nil {
+		panic(fmt.Sprintf("cannot get goroutine id: %v", err))
+	}
+	return id
 }
 
 func (c *MainController) Post() {

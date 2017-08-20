@@ -14,7 +14,7 @@ var num = 0
 var seconds = 0
 var max = 100
 
-func TestHttpGet(t *testing.T) {
+func testHttpGet(t *testing.T) {
 	var tr = &http.Transport{
 		Proxy: http.ProxyFromEnvironment,
 		Dial: (&net.Dialer{

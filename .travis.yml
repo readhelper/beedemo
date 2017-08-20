@@ -30,4 +30,5 @@ install:
  - go get -t -v ./hellogo/...
 
 script:
- - cd ./hellogo; go build 
+ - go test ./hellogo/... -cover
+ - cd ./hellogo; go build

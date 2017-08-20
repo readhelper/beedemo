@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestServer(t *testing.T) {
+func testServer(t *testing.T) {
 	var server = http.Server{}
 	fmt.Println(server.IdleTimeout)
 	fmt.Println(server.ReadHeaderTimeout)

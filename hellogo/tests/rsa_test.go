@@ -17,7 +17,7 @@ func init() {
 		cfg = "c:/psm/"
 	}
 }
-func Test_Crt(t *testing.T) {
+func test_Crt(t *testing.T) {
 	baseinfo := CertInformation{
 		Country:            []string{"CN"},
 		Organization:       []string{"WS"},

@@ -11,9 +11,6 @@ env:
    - GO15VENDOREXPERIMENT=1
   matrix:
    - TARGET=amd64
-   - TARGET=arm64
-   - TARGET=arm
-   - TARGET=ppc64le
 
 matrix:
   fast_finish: true
@@ -22,12 +19,6 @@ matrix:
   exclude:
   - go: 1.6
     env: TARGET=arm64
-  - go: tip
-    env: TARGET=arm
-  - go: tip
-    env: TARGET=arm64
-  - go: tip
-    env: TARGET=ppc64le
 
 before_install:
  - go get -v github.com/chzchzchz/goword

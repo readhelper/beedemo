@@ -5,13 +5,13 @@ import (
 	"path/filepath"
 	"github.com/astaxie/beego"
 	"testing"
-	"github.com/bmizerany/assert"
 	"fmt"
 	"os"
 	"crypto/rand"
 	"encoding/pem"
 	"crypto/x509"
 	"strings"
+"hellogo/assert"
 )
 
 func init() {

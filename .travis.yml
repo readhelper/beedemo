@@ -21,8 +21,8 @@ matrix:
     env: TARGET=arm64
 
 before_install:
- - go get -v github.com/coreos/etcd
- - go get -v github.com/astaxie/beego
+ #- go get -v github.com/coreos/etcd
+ #- go get -v github.com/astaxie/beego
  #- go get -v honnef.co/go/unused/cmd/unused
 
 # disable godep restore override

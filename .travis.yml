@@ -31,8 +31,4 @@ install:
 
 script:
  - >
-    if [ "${TARGET}" == "amd64" ]; then
-      GOARCH="${TARGET}" ./test;
-    else
       GOARCH="${TARGET}" ./build;
-    fi

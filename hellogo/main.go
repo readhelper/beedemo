@@ -1,17 +1,17 @@
 package main
 
 import (
-	"fmt"
-	"io"
-	"net/http"
-	"os"
-	"io/ioutil"
-	"runtime"
-	"strings"
-	"strconv"
 	"bytes"
+	"fmt"
 	"github.com/astaxie/beego"
 	_ "hellogo/routers"
+	"io"
+	"io/ioutil"
+	"net/http"
+	"os"
+	"runtime"
+	"strconv"
+	"strings"
 )
 
 func main() {
@@ -35,7 +35,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 	}
 	defer file.Close()
 
-	f, err := os.OpenFile(handler.Filename, os.O_WRONLY | os.O_CREATE, 0666)
+	f, err := os.OpenFile(handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -88,5 +88,4 @@ const tpl = `<html>
  <input type="submit" value="upload" />  
 </form>  
 </body>  
-</html>`  
-
+</html>`

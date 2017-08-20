@@ -1,12 +1,12 @@
 package dao_test
 
 import (
-	"testing"
-	"github.com/stretchr/testify/assert"
-	"hellogo/dao"
-	"golang.org/x/net/context"
-	"strings"
 	"fmt"
+	"github.com/stretchr/testify/assert"
+	"golang.org/x/net/context"
+	"hellogo/dao"
+	"strings"
+	"testing"
 )
 
 /*
@@ -61,19 +61,19 @@ func TestPaginate(t *testing.T) {
 		LastKey  string
 		Count    int
 	}{
-		{Root:"/huawei", LastDir:"", LastKey:"", PageSize: 13, Count: 13},
-		{Root:"/huawei", LastDir:"", LastKey:"", PageSize: 1000, Count: 303},
-		{Root:"/huawei", LastDir:"d000", LastKey:"", PageSize: 100, Count:100},
-		{Root:"/huawei", LastDir:"d000", LastKey:"/huawei/d000/k001", PageSize: 100, Count:1},
-		{Root:"/huawei", LastDir:"d001", LastKey:"/huawei/d001/k009", PageSize: 12, Count:12},
+		{Root: "/huawei", LastDir: "", LastKey: "", PageSize: 13, Count: 13},
+		{Root: "/huawei", LastDir: "", LastKey: "", PageSize: 1000, Count: 303},
+		{Root: "/huawei", LastDir: "d000", LastKey: "", PageSize: 100, Count: 100},
+		{Root: "/huawei", LastDir: "d000", LastKey: "/huawei/d000/k001", PageSize: 100, Count: 1},
+		{Root: "/huawei", LastDir: "d001", LastKey: "/huawei/d001/k009", PageSize: 12, Count: 12},
 	}
 
 	for _, d := range data {
 		opts := &dao.PageOptions{
-			Root:d.Root,
-			LastDir:d.LastDir,
-			LastKey:d.LastKey,
-			PageSize:d.PageSize,
+			Root:     d.Root,
+			LastDir:  d.LastDir,
+			LastKey:  d.LastKey,
+			PageSize: d.PageSize,
 		}
 
 		resp, err := dao.Paginate(context.Background(), kapi, opts)

@@ -1,8 +1,8 @@
 package proxys
 
 import (
-	"net/http"
 	"io/ioutil"
+	"net/http"
 	"strings"
 	"time"
 )

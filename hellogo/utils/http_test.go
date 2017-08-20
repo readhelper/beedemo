@@ -1,12 +1,12 @@
 package utils
 
 import (
-	"net/http"
-	"io/ioutil"
 	"fmt"
+	"io/ioutil"
 	"net"
-	"time"
+	"net/http"
 	"testing"
+	"time"
 )
 
 var num = 0
@@ -38,7 +38,7 @@ func timerBack() {
 		select {
 		case <-timer1.C:
 			seconds++
-			if (seconds % 10 == 0) {
+			if seconds%10 == 0 {
 				fmt.Println("[", seconds, "] seconds process [", num, "] requests")
 			}
 			if num >= max {
@@ -61,7 +61,7 @@ func httpGet(tr *http.Transport, url string, index int) {
 		fmt.Println("http.Get error", err)
 	}
 	url = string(body)
-	if (index % 200 == 1) {
+	if index%200 == 1 {
 		fmt.Println("[", index, "] content is ", string(body)[0:10])
 	}
 }

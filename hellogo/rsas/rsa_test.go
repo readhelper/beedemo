@@ -1,22 +1,22 @@
 package rsa
 
 import (
-	"runtime"
-	"path/filepath"
-	"github.com/astaxie/beego"
-	"testing"
-	"fmt"
-	"os"
 	"crypto/rand"
-	"encoding/pem"
 	"crypto/x509"
+	"encoding/pem"
+	"fmt"
+	"github.com/astaxie/beego"
+	"hellogo/assert"
+	"os"
+	"path/filepath"
+	"runtime"
 	"strings"
-"hellogo/assert"
+	"testing"
 )
 
 func init() {
 	_, file, _, _ := runtime.Caller(1)
-	apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, ".." + string(filepath.Separator))))
+	apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, ".."+string(filepath.Separator))))
 	os.Chdir(apppath)
 	//apppath = filepath.Join(apppath, "conf", "app_win.conf")
 	//beego.BeeApp.LoadAppConfig("ini",apppath)
@@ -26,16 +26,16 @@ func init() {
 
 func TestNewCertificate(t *testing.T) {
 	var certinfo = CertInformation{
-		Country            :[]string{"cn"},
-		Organization       :[]string{"huawei"},
-		OrganizationalUnit :[]string{"paas"},
-		EmailAddress       :[]string{"hao@huawei.com"},
-		Province           :[]string{"shanxin"},
-		Locality           :[]string{"xian"},
-		CommonName         :"psm",
-		CrtName:"psm.crt",
-		KeyName  :"psm.pem",
-		IsCA              :false,
+		Country:            []string{"cn"},
+		Organization:       []string{"huawei"},
+		OrganizationalUnit: []string{"paas"},
+		EmailAddress:       []string{"hao@huawei.com"},
+		Province:           []string{"shanxin"},
+		Locality:           []string{"xian"},
+		CommonName:         "psm",
+		CrtName:            "psm.crt",
+		KeyName:            "psm.pem",
+		IsCA:               false,
 		//Names              []pkix.AttributeTypeAndValue
 	}
 	err := CreateCRT(nil, nil, certinfo)
@@ -67,7 +67,7 @@ func decryptPEMBlock(key string, passphrase string) ([]byte, error) {
 	}
 	var (
 		privateKeyBytes []byte
-		err error
+		err             error
 	)
 
 	if x509.IsEncryptedPEMBlock(block) {

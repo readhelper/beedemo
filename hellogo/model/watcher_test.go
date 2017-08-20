@@ -1,14 +1,14 @@
 package model_test
 
 import (
-	"testing"
-	"time"
+	"github.com/astaxie/beego"
+	"hellogo/logger"
+	. "hellogo/model"
 	"math/rand"
 	"strconv"
-	"hellogo/logger"
-	"github.com/astaxie/beego"
 	"sync"
-	. "hellogo/model"
+	"testing"
+	"time"
 )
 
 func init() {
@@ -18,7 +18,6 @@ func init() {
 var r = rand.New(rand.NewSource(time.Now().UnixNano()))
 var watch_interval = 2 * time.Second
 var waitgroup sync.WaitGroup
-
 
 func TestWatch(t *testing.T) {
 	WEngine.Init(50, 10)

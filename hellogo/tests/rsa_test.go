@@ -3,10 +3,11 @@ package tests
 import (
 	"crypto/x509/pkix"
 	"encoding/asn1"
-	"testing"
-	. "hellogo/rsas"
 	"flag"
+	. "hellogo/rsas"
+	"testing"
 )
+
 var cfg string
 
 func init() {
@@ -18,16 +19,16 @@ func init() {
 }
 func Test_Crt(t *testing.T) {
 	baseinfo := CertInformation{
-		Country: []string{"CN"},
-		Organization: []string{"WS"},
-		IsCA: true,
+		Country:            []string{"CN"},
+		Organization:       []string{"WS"},
+		IsCA:               true,
 		OrganizationalUnit: []string{"work-stacks"},
-		EmailAddress: []string{"czxichen@163.com"},
-		Locality: []string{"SuZhou"},
-		Province: []string{"JiangSu"},
-		CommonName: "Work-Stacks",
-		CrtName: cfg+"test_root.crt",
-		KeyName: cfg+"test_root.key",
+		EmailAddress:       []string{"czxichen@163.com"},
+		Locality:           []string{"SuZhou"},
+		Province:           []string{"JiangSu"},
+		CommonName:         "Work-Stacks",
+		CrtName:            cfg + "test_root.crt",
+		KeyName:            cfg + "test_root.key",
 	}
 	err := CreateCRT(nil, nil, baseinfo)
 
@@ -44,8 +45,8 @@ func Test_Crt(t *testing.T) {
 	}
 	crtinfo := baseinfo
 	crtinfo.IsCA = false
-	crtinfo.CrtName = cfg+"test_server.crt"
-	crtinfo.KeyName = cfg+"test_server.key"
+	crtinfo.CrtName = cfg + "test_server.crt"
+	crtinfo.KeyName = cfg + "test_server.key"
 	crtinfo.Names = []pkix.AttributeTypeAndValue{
 		{
 			asn1.ObjectIdentifier{2, 1, 3},

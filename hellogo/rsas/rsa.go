@@ -58,6 +58,7 @@ func CreateCRT(RootCa *x509.Certificate, RootKey *rsa.PrivateKey, info CertInfor
 	buf = x509.MarshalPKCS1PrivateKey(Key)
 	return write(info.KeyName, "RSA PRIVATE KEY", buf)
 }
+
 //编码写入文件
 func write(filename, Type string, p []byte) error {
 	File, err := os.Create(filename)
@@ -109,10 +110,10 @@ func newCertificate(info CertInformation) *x509.Certificate {
 			Locality:           info.Locality,
 			ExtraNames:         info.Names,
 		},
-		NotBefore:             time.Now(), //证书的开始时间
+		NotBefore:             time.Now(),                   //证书的开始时间
 		NotAfter:              time.Now().AddDate(20, 0, 0), //证书的结束时间
-		BasicConstraintsValid: true, //基本的有效性约束
-		IsCA:           info.IsCA, //是否是根证书
+		BasicConstraintsValid: true,                         //基本的有效性约束
+		IsCA:           info.IsCA,                                                                  //是否是根证书
 		ExtKeyUsage:    []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth}, //证书用途
 		KeyUsage:       x509.KeyUsageDigitalSignature | x509.KeyUsageCertSign,
 		EmailAddresses: info.EmailAddress,

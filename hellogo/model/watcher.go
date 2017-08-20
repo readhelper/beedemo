@@ -1,18 +1,18 @@
 package model
 
 import (
-	"time"
-	"sync"
-	"hellogo/proxys"
-	"hellogo/logger"
-	"strings"
 	"errors"
-	"sync/atomic"
+	"hellogo/logger"
+	"hellogo/proxys"
 	"strconv"
+	"strings"
+	"sync"
+	"sync/atomic"
+	"time"
 )
 
 const (
-	watch_interval = 2 * time.Second
+	watch_interval    = 2 * time.Second
 	watch_max_counter = 100000000
 )
 
@@ -101,7 +101,7 @@ func (this *watchEngine) Start() {
 	this.init()
 	this.startWatching()
 
-	go this.check()  //lock
+	go this.check()   //lock
 	go this.process() //unlock
 }
 
@@ -201,9 +201,9 @@ func (this *watchEngine) checkWatchers() {
 		}
 
 		queue := len(this.processor)
-		if queue < this.capacity - 1 {
+		if queue < this.capacity-1 {
 			this.processor <- val
-		}else if !isFull {
+		} else if !isFull {
 			isFull = true
 			logger.Info("process queue is full.capacity:", this.capacity, "queue:", queue)
 		}
@@ -225,7 +225,7 @@ func (this *watchEngine) closeWatchers() {
 
 func (this *watchEngine) GetWatcher(key string) (Watcher, error) {
 	size := len(this.watchers)
-	if size > this.capacity - 1 {
+	if size > this.capacity-1 {
 		return nil, errors.New("watcher is full. capacity:" + strconv.Itoa(this.capacity))
 	}
 
@@ -234,13 +234,13 @@ func (this *watchEngine) GetWatcher(key string) (Watcher, error) {
 
 	w, ok := this.watchers[key]
 	if !ok {
-		w = &watcher{key:key}
-		this.addWatcher(key, &watcher{key:key})
+		w = &watcher{key: key}
+		this.addWatcher(key, &watcher{key: key})
 	}
 	return w, nil
 }
 
-func (this *watchEngine) Count() (int) {
+func (this *watchEngine) Count() int {
 	return len(this.processor)
 }
 
@@ -266,7 +266,7 @@ func (this *watchEngine) clearWatchers() (err error) {
 	}
 
 	var before = len(this.watchers)
-	if before < this.capacity / 2 {
+	if before < this.capacity/2 {
 		return
 	}
 
@@ -289,11 +289,11 @@ func (this *watchEngine) clearWatchers() (err error) {
 }
 
 var WEngine = watchEngine{
-	capacity:1000,
-	watchers:map[string]*watcher{},
+	capacity:    1000,
+	watchers:    map[string]*watcher{},
 	checkTicker: time.NewTicker(watch_interval),
 	clearTicker: time.NewTicker(5 * watch_interval),
-	processor: make(chan *watcher, 1000),
-	closer:make(chan bool, 1),
-	expire:60 * 60,
+	processor:   make(chan *watcher, 1000),
+	closer:      make(chan bool, 1),
+	expire:      60 * 60,
 }

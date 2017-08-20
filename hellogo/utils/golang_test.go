@@ -1,11 +1,11 @@
 package utils
 
 import (
-	"testing"
 	"fmt"
+	"testing"
 )
 
-func TestGolang(t *testing.T){
+func TestGolang(t *testing.T) {
 	arr := []int{1, 2, 3, 4}
 	fmt.Println(arr)
 
@@ -16,8 +16,7 @@ func TestGolang(t *testing.T){
 	fmt.Println(arr)
 }
 
-func change(ints []int)  {
+func change(ints []int) {
 	ints[1] = 22
 	//fmt.Println(ints)
 }
-

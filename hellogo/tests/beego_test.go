@@ -1,22 +1,22 @@
 package tests
 
 import (
-	"path/filepath"
-	"runtime"
-	"testing"
-	"github.com/astaxie/beego"
-	"fmt"
 	"bytes"
+	"fmt"
+	"github.com/astaxie/beego"
+	"io/ioutil"
 	"mime/multipart"
 	"net/http"
-	"io/ioutil"
-"strings"
+	"path/filepath"
+	"runtime"
 	"strconv"
+	"strings"
+	"testing"
 )
 
 func init() {
 	_, file, _, _ := runtime.Caller(1)
-	apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, ".." + string(filepath.Separator))))
+	apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, ".."+string(filepath.Separator))))
 	//apppath = filepath.Join(apppath, "conf", "app_win.conf")
 	//beego.BeeApp.LoadAppConfig("ini",apppath)
 	beego.TestBeegoInit(apppath)
@@ -30,7 +30,7 @@ func TestBeegoUpload(t *testing.T) {
 	//  Write fields and files w.CreateFormField( " input1 " )
 	w.WriteField("input1", "value1")
 
-	write,err :=ioutil.TempFile("c:/","rnd1.txt")
+	write, err := ioutil.TempFile("c:/", "rnd1.txt")
 	fmt.Println(err)
 
 	write.WriteString("ssss")
@@ -71,17 +71,18 @@ func TestBeego(t *testing.T) {
 }
 
 func Goid() int {
-    defer func()  {
-        if err := recover(); err != nil {
-            fmt.Println("panic recover:panic info:%v", err)        }
-    }()
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println("panic recover:panic info:%v", err)
+		}
+	}()
 
-    var buf [64]byte
-    n := runtime.Stack(buf[:], false)
-    idField := strings.Fields(strings.TrimPrefix(string(buf[:n]), "goroutine "))[0]
-    id, err := strconv.Atoi(idField)
-    if err != nil {
-        panic(fmt.Sprintf("cannot get goroutine id: %v", err))
-    }
-    return id
+	var buf [64]byte
+	n := runtime.Stack(buf[:], false)
+	idField := strings.Fields(strings.TrimPrefix(string(buf[:n]), "goroutine "))[0]
+	id, err := strconv.Atoi(idField)
+	if err != nil {
+		panic(fmt.Sprintf("cannot get goroutine id: %v", err))
+	}
+	return id
 }

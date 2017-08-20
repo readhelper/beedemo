@@ -1,16 +1,16 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
-	"net/http"
-	"fmt"
-	"io/ioutil"
-	"strings"
-	"net"
-	"time"
-"runtime"
 	"bytes"
+	"fmt"
+	"github.com/astaxie/beego"
+	"io/ioutil"
+	"net"
+	"net/http"
+	"runtime"
 	"strconv"
+	"strings"
+	"time"
 )
 
 type MainController struct {
@@ -24,14 +24,13 @@ func (c *MainController) Get() {
 	c.Ctx.WriteString("hello,beego get")
 }
 
-
 func getGID() uint64 {
-    b := make([]byte, 64)
-    b = b[:runtime.Stack(b, false)]
-    b = bytes.TrimPrefix(b, []byte("goroutine "))
-    b = b[:bytes.IndexByte(b, ' ')]
-    n, _ := strconv.ParseUint(string(b), 10, 64)
-    return n
+	b := make([]byte, 64)
+	b = b[:runtime.Stack(b, false)]
+	b = bytes.TrimPrefix(b, []byte("goroutine "))
+	b = b[:bytes.IndexByte(b, ' ')]
+	n, _ := strconv.ParseUint(string(b), 10, 64)
+	return n
 }
 
 func Goid() int {
@@ -66,12 +65,12 @@ func (c *MainController) RestPost() {
 }
 
 func dialTimeout(network, addr string) (net.Conn, error) {
-	return net.DialTimeout(network, addr, time.Second * 10)
+	return net.DialTimeout(network, addr, time.Second*10)
 }
 
 func (c *MainController) RestDo() {
 	transport := &http.Transport{
-		Dial:              dialTimeout,
+		Dial: dialTimeout,
 	}
 	ret := httpDo("POST", "http://localhost:12345", transport)
 	c.Ctx.WriteString(ret)

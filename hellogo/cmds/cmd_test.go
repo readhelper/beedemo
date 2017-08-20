@@ -1,11 +1,11 @@
 package cmds
 
 import (
-	"testing"
-	"os/exec"
-	"fmt"
 	"bytes"
+	"fmt"
+	"os/exec"
 	"strings"
+	"testing"
 )
 
 func TestCmds(t *testing.T) {

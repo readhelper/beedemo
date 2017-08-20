@@ -21,13 +21,13 @@ matrix:
     env: TARGET=arm64
 
 before_install:
- - go get -v github.com/chzchzchz/goword
- - go get -v honnef.co/go/simple/cmd/gosimple
- - go get -v honnef.co/go/unused/cmd/unused
+ #- go get -v github.com/chzchzchz/goword
+ #- go get -v honnef.co/go/simple/cmd/gosimple
+ #- go get -v honnef.co/go/unused/cmd/unused
 
 # disable godep restore override
 install:
- - pushd cmd/ && go get -t -v ./... && popd
+# - pushd cmd/ && go get -t -v ./... && popd
 
 script:
  - >

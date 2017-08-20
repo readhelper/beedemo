@@ -30,9 +30,4 @@ install:
  - go get -t -v ./hellogo/...
 
 script:
- - >
-    if [ "${TARGET}" == "amd64" ]; then
-      GOARCH="${TARGET}" ./build
-    else
-      GOARCH="${TARGET}" ./build
-    fi
+ - cd ./hellogo; go build 

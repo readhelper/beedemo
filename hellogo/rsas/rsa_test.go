@@ -33,8 +33,8 @@ func TestNewCertificate(t *testing.T) {
 		Province:           []string{"shanxin"},
 		Locality:           []string{"xian"},
 		CommonName:         "psm",
-		CrtName:            "psm.crt",
-		KeyName:            "psm.pem",
+		CrtName:            "/tmp/psm.crt",
+		KeyName:            "/tmp/psm.pem",
 		IsCA:               false,
 		//Names              []pkix.AttributeTypeAndValue
 	}

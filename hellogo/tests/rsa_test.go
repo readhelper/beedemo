@@ -7,12 +7,10 @@ import (
 	"testing"
 )
 
-var cfg string
+var cfg string ="/tmp/"
 
-func init() {
-	cfg = "/tmp/"
-}
-func test_Crt(t *testing.T) {
+
+func Test_Crt(t *testing.T) {
 	baseinfo := CertInformation{
 		Country:            []string{"CN"},
 		Organization:       []string{"WS"},

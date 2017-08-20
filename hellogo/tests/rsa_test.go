@@ -3,7 +3,6 @@ package tests
 import (
 	"crypto/x509/pkix"
 	"encoding/asn1"
-	"flag"
 	. "github.com/readhelper/beedemo/hellogo/rsas"
 	"testing"
 )
@@ -11,11 +10,7 @@ import (
 var cfg string
 
 func init() {
-	cfg = "c:/psm/"
-	if flag.Lookup("test.v") != nil {
-		//flag不为空,则说明存在test所拥有的参数,是在 go test 模式
-		cfg = "c:/psm/"
-	}
+	cfg = "/tmp/"
 }
 func test_Crt(t *testing.T) {
 	baseinfo := CertInformation{

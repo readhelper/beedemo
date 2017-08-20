@@ -23,7 +23,7 @@ func init() {
 }
 
 // TestBeego is a sample to run an endpoint test
-func TestBeegoUpload(t *testing.T) {
+func testBeegoUpload(t *testing.T) {
 	var buffer bytes.Buffer
 
 	w := multipart.NewWriter(&buffer)
@@ -45,9 +45,6 @@ func TestBeegoUpload(t *testing.T) {
 	fmt.Println(err)
 	data, _ := ioutil.ReadAll(resp.Body)
 	fmt.Println(string(data))
-}
-func TestBeegoHandle(t *testing.T) {
-
 }
 
 // TestBeego is a sample to run an endpoint test

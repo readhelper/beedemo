@@ -41,7 +41,7 @@ func (this *watcher) Next(uid string) (string, error) {
 	this.addPeer()
 	defer this.delPeer()
 
-	for i := 0; i < watchEngine.expire; i = i + 2 {
+	for i := 0; i < WEngine.expire; i = i + 2 {
 		if len(this.content) > 0 && (strings.Compare(this.uid, uid) != 0 || this.killed) {
 			return this.content, nil
 		}
@@ -57,37 +57,46 @@ func (this *watcher) Next(uid string) (string, error) {
 	return "", errors.New("watch timeout")
 }
 
-type WatchEngine struct {
+type watchEngine struct {
 	sync.RWMutex
 	capacity    int
 	watchers    map[string]*watcher
 	processor   chan *watcher
+	closer      chan bool
 	checkTicker *time.Ticker
 	clearTicker *time.Ticker
 	count       int32
 	expire      int
+	inited      bool
 }
 
-func (this *WatchEngine) Init(capacity int, expire int) {
-	watchEngine.capacity = capacity
-	watchEngine.expire = expire
-	watchEngine.processor = make(chan *watcher, capacity)
+func (this *watchEngine) Init(capacity int, expire int) {
+	WEngine.capacity = capacity
+	WEngine.expire = expire
+	this.init()
+}
+func (this *watchEngine) init() {
+	if !this.inited {
+		this.checkTicker = time.NewTicker(watch_interval)
+		this.clearTicker = time.NewTicker(5 * watch_interval)
+		this.processor = make(chan *watcher, this.capacity)
+		this.closer = make(chan bool, 1)
+		this.inited = true
+	}
 }
 
-func (this *WatchEngine) Start() {
+func (this *watchEngine) Start() {
 	this.startWatching()
 	go this.check()  //lock
 	go this.process() //unlock
 }
 
-func (this *WatchEngine) Stop() {
-	this.checkTicker.Stop()
-	this.clearTicker.Stop()
-	close(this.processor)
+func (this *watchEngine) Stop() {
+	this.closer <- true
 	this.stopWatching()
 }
 
-func (this *WatchEngine) check() {
+func (this *watchEngine) check() {
 	for {
 		select {
 		case <-this.checkTicker.C:
@@ -98,30 +107,41 @@ func (this *WatchEngine) check() {
 			{
 				this.clearWatchers()
 			}
-		}
-	}
-}
-func (this *WatchEngine) process() {
-	for {
-		select {
-		case w := <-this.processor:
+		case <-this.closer:
 			{
-				this.counter()
-				this.processWatcher(w)
+				this.checkTicker.Stop()
+				this.clearTicker.Stop()
+				return
 			}
 		}
 	}
 }
-func (this *WatchEngine) counter() {
+func (this *watchEngine) process() {
+	for {
+		select {
+		case w, ok := <-this.processor:
+			{
+				this.counter()
+				this.processWatcher(w, ok)
+			}
+		case <-this.closer:
+			{
+				close(this.processor)
+				return
+			}
+		}
+	}
+}
+func (this *watchEngine) counter() {
 	num := atomic.AddInt32(&this.count, 1)
 	if num > 100000000 {
 		atomic.SwapInt32(&this.count, 0)
 	}
 }
 
-func (this *WatchEngine) processWatcher(w *watcher) {
-	if w == nil {
-		logger.Warn("process watcher is nil,processor:", this.processor)
+func (this *watchEngine) processWatcher(w *watcher, ok bool) {
+	if !ok || w == nil {
+		logger.Warn("process chan is closed or watcher is nil. watcher:", w, "processer:", this.processor)
 		return
 	}
 	sc, ret, err := proxys.GetRemoteObject(w.key)
@@ -132,15 +152,16 @@ func (this *WatchEngine) processWatcher(w *watcher) {
 	w.status = sc
 	w.content = ret
 }
-func (this *WatchEngine) startWatching() {
+func (this *watchEngine) startWatching() {
 	logger.Debug("start watching ...watchers num:", len(this.watchers), "capacity:", this.capacity, "queue:", len(this.processor), "count:", this.count)
 }
 
-func (this *WatchEngine) stopWatching() {
+func (this *watchEngine) stopWatching() {
+	this.inited = false
 	logger.Debug("stop watching ...watchers num:", len(this.watchers), "capacity:", this.capacity, "queue:", len(this.processor), "count:", this.count)
 }
 
-func (this *WatchEngine) checkWatchers() {
+func (this *watchEngine) checkWatchers() {
 	if len(this.watchers) == 0 {
 		time.Sleep(watch_interval)
 		logger.Debug("watchers is empty.so sleep ...")
@@ -162,15 +183,7 @@ func (this *WatchEngine) checkWatchers() {
 	}
 }
 
-func (this *WatchEngine) GetKeys() []string {
-	var keys = []string{}
-	for key, _ := range this.watchers {
-		keys = append(keys, key)
-	}
-	return keys
-}
-
-func (this *WatchEngine) GetWatcher(key string) (Watcher, error) {
+func (this *watchEngine) GetWatcher(key string) (Watcher, error) {
 	size := len(this.watchers)
 	if size > this.capacity - 1 {
 		return nil, errors.New("watcher is full. capacity:" + strconv.Itoa(this.capacity))
@@ -186,12 +199,17 @@ func (this *WatchEngine) GetWatcher(key string) (Watcher, error) {
 	}
 	return w, nil
 }
-func (this *WatchEngine) addWatcher(key string, w *watcher) {
+
+func (this *watchEngine) Count() (int) {
+	return len(this.processor)
+}
+
+func (this *watchEngine) addWatcher(key string, w *watcher) {
 	w.start = time.Now()
 	this.watchers[key] = w
 	logger.Debug("add watcher,key=", key, "time:", w.start.String())
 }
-func (this *WatchEngine) delWatcher(w *watcher) {
+func (this *watchEngine) delWatcher(w *watcher) {
 	w.killed = true
 	w.end = time.Now()
 	delete(this.watchers, w.key)
@@ -199,7 +217,7 @@ func (this *WatchEngine) delWatcher(w *watcher) {
 }
 
 //proctecd watchengine
-func (this *WatchEngine) clearWatchers() (error) {
+func (this *watchEngine) clearWatchers() (error) {
 	var before = len(this.watchers)
 	if before < this.capacity / 2 {
 		return nil
@@ -223,11 +241,12 @@ func (this *WatchEngine) clearWatchers() (error) {
 	return nil
 }
 
-var watchEngine = WatchEngine{
+var WEngine = watchEngine{
 	capacity:1000,
 	watchers:map[string]*watcher{},
 	checkTicker: time.NewTicker(watch_interval),
 	clearTicker: time.NewTicker(5 * watch_interval),
 	processor: make(chan *watcher, 1000),
+	closer:make(chan bool, 1),
 	expire:60 * 60,
 }

@@ -27,7 +27,7 @@ before_install:
 
 # disable godep restore override
 install:
- - go get -t -v ./beedemo/...
+ - go get -t -v ./hellogo/...
 
 script:
  - >

@@ -1,6 +1,6 @@
 dist: trusty
 language: go
-#go_import_path: github.com/readhelper/beedemo
+go_import_path: github.com/readhelper/beedemo
 sudo: false
 
 go:
@@ -31,4 +31,4 @@ install:
 
 script:
  - >
-      GOARCH="${TARGET}" ./build;
+    GOARCH="${TARGET}" ./build;

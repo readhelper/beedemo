@@ -19,16 +19,18 @@ var r = rand.New(rand.NewSource(time.Now().UnixNano()))
 var watch_interval = 2 * time.Second
 var waitgroup sync.WaitGroup
 
+
 func TestWatch(t *testing.T) {
 	WEngine.Init(50, 10)
 	WEngine.Start()
 
 	time.Sleep(watch_interval * 2)
 	w, err := WEngine.GetWatcher("watcher_test")
-	if err!=nil {
-		t.Error("get watcher failed.")
+	if err != nil {
+		t.Error("get watcher failed.err:", err)
 	}
-	w.Next("id")
+	str, err := w.Next("id")
+	logger.Warn("w.next. conent:", str, "err:", err)
 	WEngine.Stop()
 }
 
@@ -37,7 +39,7 @@ func TestWEngine(t *testing.T) {
 	WEngine.Start()
 	time.Sleep(watch_interval * 2)
 
-	for i := 0; i < 5; i++ {
+	for i := 0; i < 10; i++ {
 		waitgroup.Add(1)
 		go getWatchers(i)
 	}

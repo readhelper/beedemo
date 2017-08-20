@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/net/context"
-	"hellogo/dao"
+	"github.com/readhelper/beedemo/hellogo/dao"
 	"strings"
 	"testing"
 )

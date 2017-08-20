@@ -6,7 +6,7 @@ import (
 	"github.com/coreos/etcd/client"
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/net/context"
-	"hellogo/dao"
+	"github.com/readhelper/beedemo/hellogo/dao"
 	"testing"
 	"time"
 )

@@ -2,8 +2,8 @@ package model
 
 import (
 	"errors"
-	"hellogo/logger"
-	"hellogo/proxys"
+	"github.com/readhelper/beedemo/hellogo/logger"
+	"github.com/readhelper/beedemo/hellogo/proxys"
 	"strconv"
 	"strings"
 	"sync"

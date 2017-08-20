@@ -4,7 +4,7 @@ import (
 	"crypto/x509/pkix"
 	"encoding/asn1"
 	"flag"
-	. "hellogo/rsas"
+	. "github.com/readhelper/beedemo/hellogo/rsas"
 	"testing"
 )
 

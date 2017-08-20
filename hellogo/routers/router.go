@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/astaxie/beego"
-	"hellogo/controllers"
+	"github.com/readhelper/beedemo/hellogo/controllers"
 )
 
 func init() {

@@ -1,18 +1,18 @@
-package main
+package myclient
 
 import (
-	"net/http"
-	"fmt"
-	"io/ioutil"
-	"strings"
 	"time"
 	"net"
+	"net/http"
+	"strings"
+	"fmt"
+"io/ioutil"
 )
 
 func main() {
 	var N = 100000
 	for i := 0; i < N; i++ {
-		httpDo()
+		//httpDo()
 		time.Sleep(time.Millisecond * 10)
 	}
 	time.Sleep(time.Second * 1000)
@@ -22,12 +22,10 @@ func dialTimeout(network, addr string) (net.Conn, error) {
 	return net.DialTimeout(network, addr, time.Second * 10)
 }
 
-func httpDo() {
+func httpDo(metod, url string, tr http.RoundTripper) {
 	client := &http.Client{}
-	client.Transport = &http.Transport{
-		Dial:              dialTimeout,
-	}
-	req, err := http.NewRequest("GET", "http://localhost:12345", strings.NewReader(""))
+	client.Transport = tr
+	req, err := http.NewRequest(metod, url, strings.NewReader(""))
 	if err != nil {
 		fmt.Println("http.NewRequest error", err)
 		return
@@ -48,4 +46,3 @@ func httpDo() {
 	}
 	fmt.Println(string(body))
 }
-

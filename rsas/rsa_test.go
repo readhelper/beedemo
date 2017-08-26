@@ -6,7 +6,7 @@ import (
 	"encoding/pem"
 	"fmt"
 	"github.com/astaxie/beego"
-	"github.com/readhelper/beedemo/hellogo/assert"
+	"github.com/readhelper/beedemo/assert"
 	"os"
 	"path/filepath"
 	"runtime"

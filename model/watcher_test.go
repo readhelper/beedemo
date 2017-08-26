@@ -2,8 +2,8 @@ package model_test
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/readhelper/beedemo/hellogo/logger"
-	. "github.com/readhelper/beedemo/hellogo/model"
+	"github.com/readhelper/beedemo/logger"
+	. "github.com/readhelper/beedemo/model"
 	"math/rand"
 	"strconv"
 	"sync"

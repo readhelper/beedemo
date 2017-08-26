@@ -26,11 +26,11 @@ matrix:
 
 # disable godep restore override
 install:
- - go get -v ./...
+  - go get -v ./...
 
 script:
- - go test ./... -cover
- - go build
+  - go test ./... -cover
+  - go build
 
 notifications:
   email: false

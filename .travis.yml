@@ -20,15 +20,17 @@ matrix:
   - go: 1.6
     env: TARGET=arm64
 
-before_install:
- #- go get -v github.com/coreos/etcd
- #- go get -v github.com/astaxie/beego
- #- go get -v honnef.co/go/unused/cmd/unused
+#before_install:
+# - go get -v github.com/coreos/etcd
+# - go get -v github.com/astaxie/beego
 
 # disable godep restore override
 install:
- - go get -v ./...
+ - cd beedemo && go get -v ./...
 
 script:
  - go test ./... -cover
  - go build
+
+ notifications:
+  email: false

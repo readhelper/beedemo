@@ -37,3 +37,10 @@ func Debug(msg ...interface{}) {
 	}
 
 }
+
+func Critical(msg ...interface{}) {
+	if level >= beego.LevelCritical {
+		fmt.Println(msg)
+		panic(msg)
+	}
+}

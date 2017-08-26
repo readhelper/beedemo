@@ -27,8 +27,8 @@ before_install:
 
 # disable godep restore override
 install:
- - go get -t -v ./hellogo/...
+ - go get -t -v ./...
 
 script:
- - go test ./hellogo/... -cover
- - cd ./hellogo; go build
+ - go test ./... -cover
+ - go build

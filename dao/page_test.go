@@ -2,11 +2,11 @@ package dao_test
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"golang.org/x/net/context"
 	"github.com/readhelper/beedemo/dao"
 	"strings"
 	"testing"
+	"github.com/readhelper/beedemo/assert"
 )
 
 /*
@@ -77,7 +77,7 @@ func TestPaginate(t *testing.T) {
 		}
 
 		resp, err := dao.Paginate(context.Background(), kapi, opts)
-		assert.NoError(t, err, "should not be nil")
+		assert.Equal(t, nil, err, "should not be nil")
 		assert.Equal(t, d.Count, len(resp.Node.Nodes))
 
 		fmt.Println("resp.Node:", resp.Node)

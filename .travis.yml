@@ -25,8 +25,8 @@ matrix:
 # - go get -v github.com/astaxie/beego
 
 # disable godep restore override
-install:
- - cd beedemo && go get -v ./...
+#install:
+# - cd beedemo && go get -v ./...
 
 script:
  - go test ./... -cover

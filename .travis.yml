@@ -28,7 +28,9 @@ matrix:
 install:
  - go get -v ./...
 
-script: go test ./... -cover && go build
+script:
+ - go test ./... -cover
+ - go build
 
- notifications:
+notifications:
   email: false

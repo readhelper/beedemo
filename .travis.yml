@@ -27,7 +27,7 @@ before_install:
 
 # disable godep restore override
 install:
- - go get -t -v ./...
+ - go get -v ./...
 
 script:
  - go test ./... -cover

@@ -29,7 +29,7 @@ install:
   - go get -v ./...
 
 script:
-  - go test ./... -cover
+  - go test ./... -v -cover
   - go build
 
 notifications:

@@ -1,16 +1,14 @@
 package controllers
 
 import (
-	"bytes"
 	"fmt"
 	"github.com/astaxie/beego"
-	"io/ioutil"
-	"net"
-	"net/http"
 	"runtime"
 	"strconv"
 	"strings"
+	"github.com/astaxie/beego/httplib"
 	"time"
+	"github.com/readhelper/beedemo/logger"
 )
 
 type MainController struct {
@@ -18,22 +16,15 @@ type MainController struct {
 }
 
 func (c *MainController) Get() {
-
-	println(getGID())
-	println(Goid())
-	c.Ctx.WriteString("hello,beego get")
+	c.Ctx.WriteString("hello,beego")
 }
 
-func getGID() uint64 {
-	b := make([]byte, 64)
-	b = b[:runtime.Stack(b, false)]
-	b = bytes.TrimPrefix(b, []byte("goroutine "))
-	b = b[:bytes.IndexByte(b, ' ')]
-	n, _ := strconv.ParseUint(string(b), 10, 64)
-	return n
+func (c *MainController) GetGID() {
+	var id = strconv.Itoa(getGID())
+	c.Ctx.WriteString(id)
 }
 
-func Goid() int {
+func getGID() int {
 	defer func() {
 		if err := recover(); err != nil {
 			fmt.Println("panic recover:panic info:%v", err)
@@ -50,56 +41,12 @@ func Goid() int {
 	return id
 }
 
-func (c *MainController) Post() {
-	c.Ctx.WriteString("hello,beego post")
-}
-
 func (c *MainController) RestGet() {
-	ret := httpDo("GET", "http://localhost:12345", nil)
-	c.Ctx.WriteString(ret)
-}
-
-func (c *MainController) RestPost() {
-	ret := httpDo("POST", "http://localhost:12345", nil)
-	c.Ctx.WriteString(ret)
-}
-
-func dialTimeout(network, addr string) (net.Conn, error) {
-	return net.DialTimeout(network, addr, time.Second*10)
-}
-
-func (c *MainController) RestDo() {
-	transport := &http.Transport{
-		Dial: dialTimeout,
-	}
-	ret := httpDo("POST", "http://localhost:12345", transport)
-	c.Ctx.WriteString(ret)
-}
-
-func (c *MainController) RestDefault() {
-	transport := http.DefaultTransport
-	ret := httpDo("POST", "http://localhost:12345", transport)
-	c.Ctx.WriteString(ret)
-}
-
-func httpDo(method, url string, tr http.RoundTripper) string {
-	client := &http.Client{}
-	if tr != nil {
-		client.Transport = tr
-	}
-
-	req, err := http.NewRequest(method, url, strings.NewReader(""))
+	req := httplib.Get("http://localhost:12345").Debug(true).SetTimeout(3 * time.Second, 3 * time.Second)
+	ret, err := req.String()
 	if err != nil {
-		fmt.Println("http.NewRequest error", err)
+		logger.Error(" httplib.Get err:", err)
+		c.Ctx.WriteString("connection refused")
 	}
-	resp, err := client.Do(req)
-	if resp != nil {
-		defer resp.Body.Close()
-	}
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Println("ioutil.ReadAll error", err)
-	}
-	return string(body)
+	c.Ctx.WriteString(ret)
 }

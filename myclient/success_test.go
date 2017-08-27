@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func TestRequetOk1(t *testing.T) {
+func testRequetOk1(t *testing.T) {
 	var N = 10
 	for i := 0; i < N; i++ {
 		transport := &http.Transport{

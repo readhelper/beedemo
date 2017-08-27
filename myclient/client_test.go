@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestRequetWithDial(t *testing.T) {
+func testRequetWithDial(t *testing.T) {
 	var N = 10
 	for i := 0; i < N; i++ {
 		transport := &http.Transport{
@@ -22,7 +22,7 @@ func TestRequetWithDial(t *testing.T) {
 	time.Sleep(time.Second * 60)
 }
 
-func TestRequetWithEmpty(t *testing.T) {
+func testRequetWithEmpty(t *testing.T) {
 	var N = 100000
 	for i := 0; i < N; i++ {
 		transport := &http.Transport{}
@@ -31,7 +31,7 @@ func TestRequetWithEmpty(t *testing.T) {
 	}
 	time.Sleep(time.Second * 60)
 }
-func TestRequetWithDefault(t *testing.T) {
+func testRequetWithDefault(t *testing.T) {
 	var N = 100000
 	for i := 0; i < N; i++ {
 		transport := http.DefaultTransport
@@ -40,7 +40,7 @@ func TestRequetWithDefault(t *testing.T) {
 	}
 	time.Sleep(time.Second * 60)
 }
-func TestRequetToBeego(t *testing.T) {
+func testRequetToBeego(t *testing.T) {
 	var N = 100000
 	for i := 0; i < N; i++ {
 		transport := &http.Transport{}
@@ -49,7 +49,7 @@ func TestRequetToBeego(t *testing.T) {
 	}
 	time.Sleep(time.Second * 60)
 }
-func TestRequetToBaidu(t *testing.T) {
+func testRequetToBaidu(t *testing.T) {
 	var N = 100000
 	for i := 0; i < N; i++ {
 		transport := &http.Transport{}
